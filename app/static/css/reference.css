@@ -19,7 +19,7 @@
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
-    background: #FAFAFA;
+    background: #eee8f3;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -47,7 +47,6 @@
     width: auto;
 }
 /* Sidebar Styles */
- 
 .sidebar-nav {
     position: absolute;
     top: 0;

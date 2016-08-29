@@ -3,6 +3,12 @@ from app import app, chatmodel, models
 from sqlalchemy import text, update, func
 from json import loads
 
+@app.route('/')
+@app.route('/api')
+@app.route('/api/reference')
+def renderreferencepage():
+	return render_template('reference.html', url = 'http://localhost:5000')
+
 @app.route('/api/MessageThread', methods = ['GET']) 
 def getmessagethread():
 	messages = []

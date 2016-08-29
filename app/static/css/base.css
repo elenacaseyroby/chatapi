@@ -1,0 +1,12 @@
+body {
+	padding: 3%
+}
+.tab {
+	margin-left: 40px;
+}
+#codebox {
+    border-radius: 25px;
+    background: #FAFAFA;
+    padding: 20px; 
+
+}

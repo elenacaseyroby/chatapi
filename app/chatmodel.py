@@ -9,30 +9,27 @@ def getmessagesbyuser(user1, user2 = None):
 	messages = []
 	# if user1 and user2 set, get convos between user1 and user2
 	if user2:
-		where = "WHERE (messages.from_user = "+user1+" AND messages.to_user = "+user2+") OR (messages.from_user = "+user2+" AND messages.to_user = "+user1+")"
+		where = "WHERE (u.username = '"+user1+"' AND u2.username = '"+user2+"') OR (u.username = '"+user2+"' AND u2.username = '"+user1+"')"
 	# if user1 set, get all convos involving user1
 	else:
-		where = "WHERE messages.from_user = "+user1+" OR messages.to_user = "+user1
+		where = "WHERE u.username = '"+user1+"' OR u2.username = '"+user1+"' "
 
-	sql = text("""SELECT messages.time_sent
-		, messages.body
+	sql = text("""SELECT messages.*
 		, u.username as `from`
 		, u2.username as `to`
+		, CASE WHEN messages.from_user > messages.to_user THEN CONCAT(u2.username," - ",u.username)
+			ELSE CONCAT(u.username," - ",u2.username) 
+			END AS `thread`
 		FROM messages
 		JOIN users u ON messages.from_user = u.id
 		JOIN users u2 ON messages.to_user = u2.id
-		"""+where+"""
-		ORDER BY messages.time_sent;""")
+		"""+where+""" 
+		ORDER BY thread, messages.time_sent;""")
 	results = models.engine.execute(sql)
-	for result in results:
-		message = { 'time': result[0]
-			, 'from': result[2]
-			, 'to': result[3]
-			, 'body': result[1]
-			}
-		messages.append(message)
+	return results
 
-	return messages
+
+
 def postmessage(from_user, to_user, body):
 	#check for users
 	from_user_in_db = sql_session.query(models.User).filter_by(username = from_user).first()
@@ -50,7 +47,7 @@ def postmessage(from_user, to_user, body):
 		return "failure"
 
 def addnewuser(username, email, password):
-	username_in_db = sql_session.query(models.User).filter_by(username = from_user).first()
+	username_in_db = sql_session.query(models.User).filter_by(username = username).first()
 	if username_in_db:
 		return "failure"
 	else:

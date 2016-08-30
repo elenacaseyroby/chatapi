@@ -1,7 +1,15 @@
-from flask import render_template, redirect, request, Flask, jsonify
+from flask import render_template, redirect, request, Flask, jsonify, abort, make_response
 from app import app, chatmodel, models
 from sqlalchemy import text, update, func
 from json import loads
+
+@app.errorhandler(404)
+def not_found(error):
+	return make_response(jsonify({'error': 'Not found'}), 404)
+
+@app.errorhandler(400)
+def bad_request(error):
+	return make_response(jsonify({'error': 'Bad Request. The browser (or proxy) sent a request that this server could not understand.'}), 400)
 
 @app.route('/')
 @app.route('/api')
@@ -29,7 +37,10 @@ def getmessagethread():
 				, 'body': result[3]
 				}
 			messages.append(message)
-
+	else:
+		abort(400)
+	if len(messages) == 0:
+		abort(404)
 	return jsonify(messages)
 #curl -i "http://localhost:5000/api/MessageThread?user1=[username1]"
 #curl -i "http://localhost:5000/api/MessageThread?user1=[username1]&user2=[username2]"
@@ -55,31 +66,38 @@ def postmessagethread():
 		if post == "success":
 			return jsonify(messages)
 		else:
-			return "Check that you are using valid usernames."
+			abort(400)
 	else:
-		return "Check parameters."
+		abort(400)
 #curl -i -H "Content-Type: application/json" -X POST -d '{"from":"[username]", "to": "[username]", "body": "[body text]"}' http://localhost:5000/api/MessageThread
 
 @app.route('/api/User', methods = ['POST'])
 def adduser():
-	return_message = { 'error': 'Check params'}
+	message = []
 	if request.args.get('username') and request.args.get('email') and request.args.get('password'):
 		if '@' not in request.args.get('email'):
-			return_message = { 'error': 'Check that email is valid'}
+			abort(400)
 		elif ' ' in request.args.get('username'):
-			return_message = { 'error': 'Make sure there are no spaces in your username'}
+			abort(400)
 		elif ' ' in request.args.get('password'):
-			return_message = { 'error': 'Make sure there are no spaces in your password'}
+			abort(400)
 		else:
 			username = request.args.get('username')
 			email = request.args.get('email')
 			password = request.args.get('password')
 			post = chatmodel.addnewuser(username = username, email = email, password = password)
 			if post == "success":
-				return_message = {'success': 'user successfully created'}
+				message = [{'message': 'added user successfully'
+				, 'username': username
+				, 'email': email
+				, 'password': '***'}]
+				return jsonify(message)
+			else:
+				abort(400)
+	else:
+		abort(400)
 
-	return return_message
-#curl -X POST "http://localhost:5000/api/User?username=[username]&email=[email]&password=[password]
+#curl -X POST "http://localhost:5000/api/User?username=[username]&email=[email]&password=[password]"
 
 
 

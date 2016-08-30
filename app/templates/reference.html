@@ -197,12 +197,21 @@
 					<h4>Examples</h4>
 					<hr>
 					<h6>Template</h6>
-					<p class="tab" id="codebox">curl -X POST "http://localhost:5000/api/User?username=[username]&email=[email]&password=[password]</p>
+					<p class="tab" id="codebox">curl -i -X POST "http://localhost:5000/api/User?username=[username]&email=[email]&password=[password]"</p>
 					<h6>Input</h6>
-					<p class="tab" id="codebox">curl -X POST "http://localhost:5000/api/User?username=user3&email=user3@gmail.com&password=password</p>
+					<p class="tab" id="codebox">curl -i -X POST "http://localhost:5000/api/User?username=user3&email=user3@gmail.com&password=password"</p>
 					<h6>Output</h6>
 					<p class="tab" id="codebox">
+					[<br>
+					  {
+					    "email": "user23@gmail.com"<br>, 
+					    "message": "added user successfully"<br>, 
+					    "password": "***"<br>, 
+					    "username": "user23"
+					  }<br>
+					]
 					</p>
+
 				</div>
 			</div>
 		</div>

@@ -9,6 +9,7 @@
  
  
 #sidebar-wrapper {
+    border-radius: 25px;
     z-index: 1000;
     left: 250px;
     width: 0;

@@ -35,10 +35,10 @@ def postmessage(from_user, to_user, body):
 	from_user_in_db = sql_session.query(models.User).filter_by(username = from_user).first()
 	if from_user_in_db:
 		from_user_id = from_user_in_db.id
-		to_user_in_db = sql_session.query(models.User).filter_by(username = to_user).first()
-		if to_user_in_db:
-			to_user_id = to_user_in_db.id
-	if from_user_id and to_user_id:
+	to_user_in_db = sql_session.query(models.User).filter_by(username = to_user).first()
+	if to_user_in_db:
+		to_user_id = to_user_in_db.id
+	if from_user_in_db and to_user_in_db:
 			new_message = models.Message(from_user = int(from_user_id), to_user = int(to_user_id), body = str(body))
 			sql_session.add(new_message)
 			sql_session.commit()

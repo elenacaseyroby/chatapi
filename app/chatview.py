@@ -11,6 +11,8 @@ def not_found(error):
 def bad_request(error):
 	return make_response(jsonify({'error': 'Bad Request. The browser (or proxy) sent a request that this server could not understand.'}), 400)
 
+
+
 @app.route('/')
 @app.route('/api')
 @app.route('/api/reference')
@@ -40,7 +42,7 @@ def getmessagethread():
 	else:
 		abort(400)
 	if len(messages) == 0:
-		abort(404)
+		messages = [{'success': 'Request succeeded but yielded no results.'}]
 	return jsonify(messages)
 #curl -i "http://localhost:5000/api/MessageThread?user1=[username1]"
 #curl -i "http://localhost:5000/api/MessageThread?user1=[username1]&user2=[username2]"
@@ -91,9 +93,9 @@ def adduser():
 				, 'username': username
 				, 'email': email
 				, 'password': '***'}]
-				return jsonify(message)
 			else:
-				abort(400)
+				message = [{'error':'Bad Request. Username is taken. Please try a different one.'}]
+			return jsonify(message)
 	else:
 		abort(400)
 

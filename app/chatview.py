@@ -70,7 +70,15 @@ def postmessagethread():
 			messages.append(message)
 
 		if post == "success":
-			return jsonify(messages)
+			if ('return_thread' in params):
+				if request.json['return_thread'] == 'true':
+					return jsonify(messages)
+				elif request.json['return_thread'] == 'false':
+					jsonify(message)
+				else:
+					abort(400)
+			else:
+				return jsonify(message)
 		else:
 			abort(400)
 	else:

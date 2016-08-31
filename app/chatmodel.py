@@ -5,14 +5,18 @@ from app import models, sql_session
 from sqlalchemy import text, update, func
 from flask import session, request
 
-def getmessagesbyuser(user1, user2 = None):
+def getmessagesbyuser(user1, user2 = None, list_threads = False):
 	messages = []
 	# if user1 and user2 set, get convos between user1 and user2
+	group_by = ""
 	if user2:
 		where = "WHERE (u.username = '"+user1+"' AND u2.username = '"+user2+"') OR (u.username = '"+user2+"' AND u2.username = '"+user1+"')"
 	# if user1 set, get all convos involving user1
 	else:
 		where = "WHERE u.username = '"+user1+"' OR u2.username = '"+user1+"' "
+
+	if list_threads:
+		group_by = "GROUP BY thread"
 
 	sql = text("""SELECT messages.*
 		, u.username as `from`
@@ -24,11 +28,41 @@ def getmessagesbyuser(user1, user2 = None):
 		JOIN users u ON messages.from_user = u.id
 		JOIN users u2 ON messages.to_user = u2.id
 		"""+where+""" 
-		ORDER BY thread, messages.time_sent;""")
+		ORDER BY thread, messages.time_sent
+		"""+group_by+";")
+	print(sql)
 	results = models.engine.execute(sql)
 	return results
 
+def getthreadlistbyuser(user):
+	sql = text("""SELECT CASE WHEN messages.from_user > messages.to_user THEN CONCAT(u2.username," - ",u.username)
+			ELSE CONCAT(u.username," - ",u2.username) 
+			END AS `thread`
+		FROM messages
+		JOIN users u ON messages.from_user = u.id
+		JOIN users u2 ON messages.to_user = u2.id
+		WHERE u.username = '"""+user+"' OR u2.username = '"+user+"""'  
+UNION
+SELECT CASE WHEN messages.from_user > messages.to_user THEN CONCAT(u2.username," - ",u.username)
+			ELSE CONCAT(u.username," - ",u2.username) 
+			END AS `thread`
+		FROM messages
+		JOIN users u ON messages.from_user = u.id
+		JOIN users u2 ON messages.to_user = u2.id
+		WHERE u.username = '"""+user+"' OR u2.username = '"+user+"""';""")
+	results = models.engine.execute(sql)
+	return results
 
+def getallusers(user = None):
+	where = ""
+	if user:
+		where = "WHERE username != '"+user+"'"
+	sql = text("""SELECT *
+		FROM users
+		"""+where+"""
+		ORDER BY username;""")
+	results = models.engine.execute(sql)
+	return results
 
 def postmessage(from_user, to_user, body):
 	#check for users

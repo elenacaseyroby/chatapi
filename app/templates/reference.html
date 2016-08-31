@@ -57,10 +57,10 @@
 
 					<h4>Examples</h4>
 					<hr>
-					<h6>Template</h6>
-					<p class="tab" id="codebox">curl -i "http://localhost:5000/api/MessageThread?user1=[username1]&user2=[username2]</p>
+					<h6>cURL Command Line Template</h6>
+					<p class="tab" id="codebox">curl -i -H 'Content-Type: application/json' -X GET -d '{"user1":"[username]","user2":"[username]"}' http://localhost:5000/api/MessageThread</p>
 					<h6>Input</h6>
-					<p class="tab" id="codebox">curl -i "http://localhost:5000/api/MessageThread?user1=ecroby"</p>
+					<p class="tab" id="codebox">curl -i -H 'Content-Type: application/json' -X GET -d '{"user1":"ecroby"}' http://localhost:5000/api/MessageThread</p>
 					<h6>Output</h6>
 					<p class="tab" id="codebox">
 					[<br>
@@ -91,7 +91,7 @@
 					]
 					</p>
 					<h6>Input</h6>
-					<p class="tab" id="codebox">curl -i "http://localhost:5000/api/MessageThread?user1=ecroby&user2=user2"</p>
+					<p class="tab" id="codebox">curl -i -H 'Content-Type: application/json' -X GET -d '{"user1":"ecroby","user2":"user2"}' http://localhost:5000/api/MessageThread</p>
 					<h6>Output</h6>
 					<p class="tab" id="codebox">
 					[<br>
@@ -140,7 +140,7 @@
 
 					<h4>Examples</h4>
 					<hr>
-					<h6>Template</h6>
+					<h6>cURL Command Line Template</h6>
 					<p class="tab" id="codebox">curl -i -H "Content-Type: application/json" -X POST -d '{"from":"[username]", "to": "[username]", "body": "[body text]"}' http://localhost:5000/api/MessageThread</p>
 					<h6>Input</h6>
 					<p class="tab" id="codebox">curl -i -H "Content-Type: application/json" -X POST -d '{"from":"ecroby", "to": "user2", "body": "Bruh, u watched Point Break yet?"}' http://localhost:5000/api/MessageThread</p>
@@ -196,10 +196,10 @@
 
 					<h4>Examples</h4>
 					<hr>
-					<h6>Template</h6>
-					<p class="tab" id="codebox">curl -i -X POST "http://localhost:5000/api/User?username=[username]&email=[email]&password=[password]"</p>
+					<h6>cURL Command Line Template</h6>
+					<p class="tab" id="codebox">curl -i -H 'Content-Type: application/json' -X GET -d '{"user1":"[username]","user2":"[username]"}' http://localhost:5000/api/MessageThread</p>
 					<h6>Input</h6>
-					<p class="tab" id="codebox">curl -i -X POST "http://localhost:5000/api/User?username=user3&email=user3@gmail.com&password=password"</p>
+					<p class="tab" id="codebox">curl -i -H "Content-Type: application/json" -X POST -d '{"username":"user23", "email": "user23@gmail.com", "password": "password"}' http://localhost:5000/api/User</p>
 					<h6>Output</h6>
 					<p class="tab" id="codebox">
 					[<br>

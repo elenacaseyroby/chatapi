@@ -22,11 +22,10 @@ def renderreferencepage():
 @app.route('/api/MessageThread', methods = ['GET']) 
 def getmessagethread():
 	messages = []
-	
-	if request.args.get('user1'):
-		user1 = request.args.get('user1')
-		if request.args.get('user2'):
-			user2 = request.args.get('user2')
+	if request.json.get('user1'):
+		user1 = request.json.get('user1')
+		if request.json.get('user2'):
+			user2 = request.json.get('user2')
 			results = chatmodel.getmessagesbyuser(user1, user2)
 		else:
 			results = chatmodel.getmessagesbyuser(user1)
@@ -44,8 +43,8 @@ def getmessagethread():
 	if len(messages) == 0:
 		messages = [{'success': 'Request succeeded but yielded no results.'}]
 	return jsonify(messages)
-#curl -i "http://localhost:5000/api/MessageThread?user1=[username1]"
-#curl -i "http://localhost:5000/api/MessageThread?user1=[username1]&user2=[username2]"
+#curl -i -H 'Content-Type: application/json' -X GET -d '{"user1":"ecroby","user2":"user2"}' http://localhost:5000/api/MessageThread
+#works!
 
 @app.route('/api/MessageThread', methods = ['POST'])
 def postmessagethread():
@@ -76,17 +75,17 @@ def postmessagethread():
 @app.route('/api/User', methods = ['POST'])
 def adduser():
 	message = []
-	if request.args.get('username') and request.args.get('email') and request.args.get('password'):
-		if '@' not in request.args.get('email'):
+	if request.json['username'] and request.json['email'] and request.json['password']:
+		if '@' not in request.json['email']:
 			abort(400)
-		elif ' ' in request.args.get('username'):
+		elif ' ' in request.json['username']:
 			abort(400)
-		elif ' ' in request.args.get('password'):
+		elif ' ' in request.json['password']:
 			abort(400)
 		else:
-			username = request.args.get('username')
-			email = request.args.get('email')
-			password = request.args.get('password')
+			username = request.json['username']
+			email = request.json['email']
+			password = request.json['password']
 			post = chatmodel.addnewuser(username = username, email = email, password = password)
 			if post == "success":
 				message = [{'message': 'added user successfully'
@@ -100,7 +99,7 @@ def adduser():
 		abort(400)
 
 #curl -X POST "http://localhost:5000/api/User?username=[username]&email=[email]&password=[password]"
-
+#curl -i -H "Content-Type: application/json" -X POST -d '{"username":"[username]", "email": "[email]", "password": "[password]"}' http://localhost:5000/api/User
 
 
 

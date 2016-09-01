@@ -9,7 +9,7 @@ import os
 print("~~~~~~~~~~~~~~~~~~~~~~~")
 print(os.environ)
 print("~~~~~~~~~~~~~~~~~~~~~~~")
-print(os.environ['MYSQL_DATABASE_URL'])
+print(os.environ['CLEARDB_DATABASE_URL'])
 print("~~~~~~~~~~~~~~~~~~~~~~~")
 
 

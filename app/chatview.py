@@ -20,9 +20,19 @@ def renderreferencepage():
 @app.route('/api/MessageThread', methods = ['GET']) 
 def getmessagethread():
 	messages = []
+	if request.json.get('time_sent'):
+		if request.json.get('time_sent') == 'today':
+			time_sent = 'today'
+		elif request.json.get('time_sent') == 'week':
+			time_sent = 'week'
+		elif request.json.get('time_sent') == 'month':
+			time_sent = 'month'
+	else:
+		time_sent = None
+
 	if request.json.get('user1') and request.json.get('list_threads') == 'true':
 		user1 = request.json.get('user1')
-		results = chatmodel.getthreadlistbyuser(user1)
+		results = chatmodel.getthreadlistbyuser(user = user1)
 		for result in results:
 			message = { 'thread': result[0]}
 			messages.append(message)
@@ -31,9 +41,9 @@ def getmessagethread():
 		user1 = request.json.get('user1')
 		if request.json.get('user2'):
 			user2 = request.json.get('user2')
-			results = chatmodel.getmessagesbyuser(user1, user2)
+			results = chatmodel.getthreadsbyuser(user1 = user1, user2 = user2, time_sent = time_sent)
 		else:
-			results = chatmodel.getmessagesbyuser(user1)
+			results = chatmodel.getthreadsbyuser(user1 = user1, time_sent = time_sent)
 		for result in results:
 			message = { 'thread': result[7]
 				, 'message_id': result[0]
@@ -59,7 +69,7 @@ def postmessagethread():
 		to_user = request.json['to']
 		body = request.json['body']
 		post = chatmodel.postmessage(from_user = from_user, to_user = to_user, body = body)
-		results = chatmodel.getmessagesbyuser(from_user, to_user)
+		results = chatmodel.getthreasbyuser(user1 = from_user, user2 = to_user)
 		for result in results:
 			message = { 'message_id': result[0]
 				, 'time': result[4]

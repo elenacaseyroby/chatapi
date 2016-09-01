@@ -4,19 +4,29 @@
 from app import models, sql_session
 from sqlalchemy import text, update, func
 from flask import session, request
+import datetime
 
-def getmessagesbyuser(user1, user2 = None, list_threads = False):
+def getthreadsbyuser(user1, user2 = None, time_sent = None):
 	messages = []
-	# if user1 and user2 set, get convos between user1 and user2
-	group_by = ""
+	# if user1 and user2 set, get threads between user1 and user2
 	if user2:
 		where = "WHERE (u.username = '"+user1+"' AND u2.username = '"+user2+"') OR (u.username = '"+user2+"' AND u2.username = '"+user1+"')"
-	# if user1 set, get all convos involving user1
+	# if user1 set, get all threads involving user1
 	else:
-		where = "WHERE u.username = '"+user1+"' OR u2.username = '"+user1+"' "
+		where = "WHERE (u.username = '"+user1+"' OR u2.username = '"+user1+"') "
 
-	if list_threads:
-		group_by = "GROUP BY thread"
+	now = datetime.datetime.now()
+	today = now.strftime("%Y-%m-%d %H:%M:%S") 
+	if time_sent == 'today':
+		where = where + " AND messages.time_sent >= '"+today+"' "
+	elif time_sent == 'week':
+		oneweekago = datetime.date.today() - datetime.timedelta(days=7)
+		oneweekago = oneweekago.strftime("%Y-%m-%d %H:%M:%S")
+		where = where + " AND messages.time_sent >= '"+oneweekago+"' "
+	elif time_sent == 'month':
+		onemonthago = datetime.date.today() - datetime.timedelta(month=1)
+		onemonthago = onemonthago.strftime("%Y-%m-%d %H:%M:%S")
+		where = where + " AND messages.time_sent >= '"+onemonthago+"' "
 
 	sql = text("""SELECT messages.*
 		, u.username as `from`
@@ -28,10 +38,9 @@ def getmessagesbyuser(user1, user2 = None, list_threads = False):
 		JOIN users u ON messages.from_user = u.id
 		JOIN users u2 ON messages.to_user = u2.id
 		"""+where+""" 
-		ORDER BY thread, messages.time_sent
-		"""+group_by+";")
-	print(sql)
+		ORDER BY thread, messages.time_sent;""")
 	results = models.engine.execute(sql)
+	print(sql)
 	return results
 
 def getthreadlistbyuser(user):

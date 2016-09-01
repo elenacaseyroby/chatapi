@@ -9,8 +9,6 @@ import os
 print("~~~~~~~~~~~~~~~~~~~~~~~")
 print(os.environ)
 print("~~~~~~~~~~~~~~~~~~~~~~~")
-print(os.environ['CLEARDB_DATABASE_URL'])
-print("~~~~~~~~~~~~~~~~~~~~~~~")
 
 
 if 'CLEARDB_DATABASE_URL' in os.environ and os.environ['CLEARDB_DATABASE_URL']:

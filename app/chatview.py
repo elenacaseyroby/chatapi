@@ -15,7 +15,7 @@ def bad_request(error):
 @app.route('/api')
 @app.route('/api/reference')
 def renderreferencepage():
-	return render_template('reference.html', url = 'http://localhost:5000')
+	return render_template('reference.html', url = 'http://http://caseys-chat-api.herokuapp.com')
 
 @app.route('/api/MessageThread', methods = ['GET']) 
 def getmessagethread():

@@ -24,7 +24,7 @@ def getthreadsbyuser(user1, user2 = None, time_sent = None):
 		oneweekago = oneweekago.strftime("%Y-%m-%d %H:%M:%S")
 		where = where + " AND messages.time_sent >= '"+oneweekago+"' "
 	elif time_sent == 'month':
-		onemonthago = datetime.date.today() - datetime.timedelta(month=1)
+		onemonthago = datetime.date.today() - datetime.timedelta(days=30)
 		onemonthago = onemonthago.strftime("%Y-%m-%d %H:%M:%S")
 		where = where + " AND messages.time_sent >= '"+onemonthago+"' "
 

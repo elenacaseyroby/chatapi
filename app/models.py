@@ -13,8 +13,8 @@ print(os.environ['MYSQL_DATABASE_URL'])
 print("~~~~~~~~~~~~~~~~~~~~~~~")
 
 
-if 'MYSQL_DATABASE_URL' in os.environ and os.environ['MYSQL_DATABASE_URL']:
-    db_url = os.environ['MYSQL_DATABASE_URL']
+if 'CLEARDB_DATABASE_URL' in os.environ and os.environ['CLEARDB_DATABASE_URL']:
+    db_url = os.environ['CLEARDB_DATABASE_URL']
 else:
 	db_url = 'mysql+pymysql://root:@127.0.0.1:3306/chatdb'
 

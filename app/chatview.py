@@ -58,7 +58,6 @@ def getmessagethread():
 	if len(messages) == 0:
 		messages = [{'success': 'Request succeeded but yielded no results.'}]
 	return jsonify(messages)
-#curl -H 'Content-Type: application/json' -X GET -d '{"user1":"[username]","list_threads": "true"}' http://localhost:5000/api/MessageThread
 
 @app.route('/api/MessageThread', methods = ['POST'])
 def postmessagethread():
@@ -94,6 +93,16 @@ def postmessagethread():
 	else:
 		abort(400)
 
+@app.route('/api/User', methods = ['GET'])
+def getusers():
+	messages = []
+	results = chatmodel.getallusers()
+	for result in results:
+		message = { 'user':result[1]
+			}
+		messages.append(message)
+	return jsonify(messages)
+
 @app.route('/api/User', methods = ['POST'])
 def adduser():
 	message = []
@@ -120,22 +129,6 @@ def adduser():
 			return jsonify(message)
 	else:
 		abort(400)
-
-@app.route('/api/User', methods = ['GET'])
-def getusers():
-	messages = []
-	if request.json.get('list_users') == 'true':
-		results = chatmodel.getallusers()
-		for result in results:
-			message = { 'user':result[1]
-				}
-			messages.append(message)
-		return jsonify(messages)
-
-	else:
-		abort(400)
-#curl -H 'Content-Type: application/json' -X GET -d '{"list_threads": "true"}' http://localhost:5000/api/User
-
 
 
 

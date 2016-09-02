@@ -6,11 +6,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref 
 import os
 
-print("~~~~~~~~~~~~~~~~~~~~~~~")
-print(os.environ)
-print("~~~~~~~~~~~~~~~~~~~~~~~")
-
-
 if 'CLEARDB_DATABASE_URL' in os.environ and os.environ['CLEARDB_DATABASE_URL']:
     db_url = os.environ['CLEARDB_DATABASE_URL']
     db_url = db_url.replace("?reconnect=true", "")

@@ -40,7 +40,6 @@ def getthreadsbyuser(user1, user2 = None, time_sent = None):
 		"""+where+""" 
 		ORDER BY thread, messages.time_sent;""")
 	results = models.engine.execute(sql)
-	print(sql)
 	return results
 
 def getthreadlistbyuser(user):

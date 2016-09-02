@@ -68,7 +68,7 @@ def postmessagethread():
 		to_user = request.json['to']
 		body = request.json['body']
 		post = chatmodel.postmessage(from_user = from_user, to_user = to_user, body = body)
-		results = chatmodel.getthreasbyuser(user1 = from_user, user2 = to_user)
+		results = chatmodel.getthreadsbyuser(user1 = from_user, user2 = to_user)
 		for result in results:
 			message = { 'message_id': result[0]
 				, 'time': result[4]

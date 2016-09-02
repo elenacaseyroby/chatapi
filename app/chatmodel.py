@@ -10,13 +10,13 @@ def getthreadsbyuser(user1, user2 = None, time_sent = None):
 	messages = []
 	# if user1 and user2 set, get threads between user1 and user2
 	if user2:
-		where = "WHERE (u.username = '"+user1+"' AND u2.username = '"+user2+"') OR (u.username = '"+user2+"' AND u2.username = '"+user1+"')"
+		where = "WHERE ((u.username = '"+user1+"' AND u2.username = '"+user2+"') OR (u.username = '"+user2+"' AND u2.username = '"+user1+"'))"
 	# if user1 set, get all threads involving user1
 	else:
 		where = "WHERE (u.username = '"+user1+"' OR u2.username = '"+user1+"') "
 
 	now = datetime.datetime.now()
-	today = now.strftime("%Y-%m-%d %H:%M:%S") 
+	today = now.strftime("%Y-%m-%d 00:00:00") 
 	if time_sent == 'today':
 		where = where + " AND messages.time_sent >= '"+today+"' "
 	elif time_sent == 'week':

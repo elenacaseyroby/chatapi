@@ -20,6 +20,7 @@ def renderreferencepage():
 @app.route('/api/MessageThread', methods = ['GET']) 
 def getmessagethread():
 	messages = []
+	#set time param
 	if request.json.get('time_sent'):
 		if request.json.get('time_sent') == 'today':
 			time_sent = 'today'
@@ -27,32 +28,44 @@ def getmessagethread():
 			time_sent = 'week'
 		elif request.json.get('time_sent') == 'month':
 			time_sent = 'month'
-	else:
+		else:
+			abort(400)
+	else: 
 		time_sent = None
 
-	if request.json.get('user1') and request.json.get('list_threads') == 'true':
+	if request.json.get('user1'):
 		user1 = request.json.get('user1')
-		results = chatmodel.getthreadlistbyuser(user = user1)
-		for result in results:
-			message = { 'thread': result[0]}
-			messages.append(message)
-
-	elif request.json.get('user1'):
-		user1 = request.json.get('user1')
-		if request.json.get('user2'):
+		if request.json.get('list_threads'):
+			if request.json.get('list_threads') == 'true':
+				if request.json.get('user2'):
+					user2 = request.json.get('user2')
+					results = chatmodel.getthreadsbyuser(user1 = user1, user2 = user2, time_sent = time_sent)
+				else:
+					results = chatmodel.getthreadsbyuser(user1 = user1, time_sent = time_sent)
+				previously_listed_threads = []
+				for result in results:
+					if result[7] not in previously_listed_threads:
+						message = { 'thread': result[7]}
+						messages.append(message)
+					previously_listed_threads.append(result[7])
+			else:
+				abort(400)
+		elif request.json.get('user2'):
 			user2 = request.json.get('user2')
 			results = chatmodel.getthreadsbyuser(user1 = user1, user2 = user2, time_sent = time_sent)
+
 		else:
 			results = chatmodel.getthreadsbyuser(user1 = user1, time_sent = time_sent)
-		for result in results:
-			message = { 'thread': result[7]
-				, 'message_id': result[0]
-				, 'time': result[4]
-				, 'from': result[5]
-				, 'to': result[6]
-				, 'body': result[3]
-				}
-			messages.append(message)
+		if not request.json.get('list_threads'):
+			for result in results:
+				message = { 'thread': result[7]
+					, 'message_id': result[0]
+					, 'time': result[4]
+					, 'from': result[5]
+					, 'to': result[6]
+					, 'body': result[3]
+					}
+				messages.append(message)
 	else:
 		abort(400)
 	if len(messages) == 0:

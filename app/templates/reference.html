@@ -50,8 +50,8 @@
 					<tbody>
 					<tr><td>user1</td><td>Yes</td><td>username</td><td>Returns a list of all messages sent to and from that user.  Messages will be sorted into threads (messages between two users) and then sorted by time sent.</td></tr>
 					<tr><td>user2</td><td>No</td><td>username</td><td>Returns the thread of messages between user1 and user2 sorted by time sent.</td></tr>
-					<tr><td>list_threads</td><td>No</td><td>'true'</td><td>Returns a list of threads involving user1. <i>Can't use with 'time_sent' parameter.</i></td></tr>
-					<tr><td>time_sent</td><td>No</td><td>'today', 'week', 'month'</td><td>Returns messages sent today, in the last week, or in the last 30 days involving user1 and user2 if set. <i>Can't use with 'list_threads' parameter.</i></td></tr>
+					<tr><td>list_threads</td><td>No</td><td>'true'</td><td>Returns a list of threads involving user1. (If 'user2' is set, only the thread between the two users will be returned (assuming messages exist between user1 and user2).</td></tr>
+					<tr><td>time_sent</td><td>No</td><td>'today', 'week', 'month'</td><td>Returns messages sent today, in the last week, or in the last 30 days involving user1 and user2 if set.</td></tr>
 					</tbody>
 					</table>
 

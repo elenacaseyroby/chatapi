@@ -12,12 +12,11 @@ def bad_request(error):
 	return make_response(jsonify({'error': 'Bad Request. The browser (or proxy) sent a request that this server could not understand.'}), 400)
 
 @app.route('/')
-@app.route('/api')
-@app.route('/api/reference')
+@app.route('/reference')
 def renderreferencepage():
 	return render_template('reference.html', url = 'http://caseys-chat-api.herokuapp.com')
 
-@app.route('/api/MessageThread', methods = ['GET']) 
+@app.route('/api/v1/MessageThreads', methods = ['GET']) 
 def getmessagethread():
 	messages = []
 	#set time param
@@ -68,7 +67,7 @@ def getmessagethread():
 		messages = [{'success': 'Request succeeded but yielded no results.'}]
 	return jsonify(messages)
 
-@app.route('/api/MessageThread', methods = ['POST'])
+@app.route('/api/v1/MessageThreads', methods = ['POST'])
 def postmessagethread():
 	messages = []
 	params = request.get_json()
@@ -102,7 +101,7 @@ def postmessagethread():
 	else:
 		abort(400)
 
-@app.route('/api/User', methods = ['GET'])
+@app.route('/api/v1/Users', methods = ['GET'])
 def getusers():
 	messages = []
 	results = chatmodel.getallusers()
@@ -112,7 +111,7 @@ def getusers():
 		messages.append(message)
 	return jsonify(messages)
 
-@app.route('/api/User', methods = ['POST'])
+@app.route('/api/v1/Users', methods = ['POST'])
 def adduser():
 	message = []
 	params = request.get_json()

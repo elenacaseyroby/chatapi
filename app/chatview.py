@@ -5,9 +5,9 @@ from json import loads
 
 @app.teardown_request
 def session_clear(exception=None):
-    Session.remove()
-    if exception and Session.is_active:
-        Session.rollback()
+
+	if exception and Session.is_active:
+		Session.rollback()
 
 @app.errorhandler(404)
 def not_found(error):

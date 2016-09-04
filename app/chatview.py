@@ -20,12 +20,12 @@ def renderreferencepage():
 def getmessagethread():
 	messages = []
 	#set time param
-	if request.args.get('time_sent'):
-		if request.args.get('time_sent') == 'today':
+	if request.args.get('timeSent'):
+		if request.args.get('timeSent') == 'today':
 			time_sent = 'today'
-		elif request.args.get('time_sent') == 'week':
+		elif request.args.get('timeSent') == 'week':
 			time_sent = 'week'
-		elif request.args.get('time_sent') == 'month':
+		elif request.args.get('timeSent') == 'month':
 			time_sent = 'month'
 		else:
 			abort(400)
@@ -39,8 +39,8 @@ def getmessagethread():
 		
 	if request.args.get('user1'):
 		user1 = request.args.get('user1')
-		if request.args.get('list_threads'):
-			if request.args.get('list_threads') == 'true':
+		if request.args.get('listThreads'):
+			if request.args.get('listThreads') == 'true':
 				results = chatmodel.getthreadsbyuser(user1 = user1, user2 = user2, time_sent = time_sent)
 				previously_listed_threads = []
 				for result in results:
@@ -54,7 +54,7 @@ def getmessagethread():
 			results = chatmodel.getthreadsbyuser(user1 = user1, user2 = user2, time_sent = time_sent)
 			for result in results:
 				message = { 'thread': result[7]
-					, 'message_id': result[0]
+					, 'messageId': result[0]
 					, 'time': result[4]
 					, 'from': result[5]
 					, 'to': result[6]
@@ -78,7 +78,7 @@ def postmessagethread():
 		post = chatmodel.postmessage(from_user = from_user, to_user = to_user, body = body)
 		results = chatmodel.getthreadsbyuser(user1 = from_user, user2 = to_user)
 		for result in results:
-			message = { 'message_id': result[0]
+			message = { 'messageId': result[0]
 				, 'time': result[4]
 				, 'from': result[5]
 				, 'to': result[6]
@@ -87,11 +87,9 @@ def postmessagethread():
 			messages.append(message)
 
 		if post == "success":
-			if ('return_thread' in params):
-				if request.json['return_thread'] == 'true':
+			if ('returnThread' in params):
+				if request.json['returnThread'] == 'true':
 					return jsonify(messages)
-				elif request.json['return_thread'] == 'false':
-					jsonify(message)
 				else:
 					abort(400)
 			else:

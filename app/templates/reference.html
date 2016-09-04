@@ -64,15 +64,15 @@
 					<tbody>
 					<tr><td>user1</td><td>Yes</td><td>username</td><td>Returns a list of all messages sent to and from that user.  Messages will be sorted into threads (messages between two users) and then sorted by time sent.</td></tr>
 					<tr><td>user2</td><td>No</td><td>username</td><td>Returns the thread of messages between user1 and user2 sorted by time sent.</td></tr>
-					<tr><td>list_threads</td><td>No</td><td>'true'</td><td>Returns a list of threads involving user1. (If 'user2' is set, only the thread between the two users will be returned (assuming messages exist between user1 and user2).</td></tr>
-					<tr><td>time_sent</td><td>No</td><td>'today', 'week', 'month'</td><td>Returns message threads, or a list of threads with messages sent today, in the last week, or in the last 30 days involving user1 and user2 if set.</td></tr>
+					<tr><td>listThreads</td><td>No</td><td>'true'</td><td>Returns a list of threads involving user1. (If 'user2' is set, only the thread between the two users will be returned (assuming messages exist between user1 and user2).</td></tr>
+					<tr><td>timeSent</td><td>No</td><td>'today', 'week', 'month'</td><td>Returns message threads, or a list of threads with messages sent today, in the last week, or in the last 30 days involving user1 and user2 if set.</td></tr>
 					</tbody>
 					</table>
 
 					<h4>Examples</h4>
 					<hr>
 					<h6>cURL Command Line Template</h6>
-					<p class="tab" id="codebox">curl "{{url}}/api/v1/MessageThreads?user1=[username1]&user2=[username2]&list_threads=true&time_sent=[today, week, month]"</p>
+					<p class="tab" id="codebox">curl "{{url}}/api/v1/MessageThreads?user1=[username1]&user2=[username2]&listThreads=true&timeSent=[today, week, month]"</p>
 					<h6>Input</h6>
 					<p class="tab" id="codebox">curl "{{url}}/api/v1/MessageThreads?user1=ecroby"</p>
 					<h6>Output</h6>
@@ -147,14 +147,14 @@
 					<tr><td>from</td><td>Yes</td><td>username</td><td>user to be marked as "from"</td></tr>
 					<tr><td>to</td><td>Yes</td><td>username</td><td>user to be marked as "to"<td></tr>
 					<tr><td>body</td><td>Yes</td><td>string</td><td>message body</td></tr>
-					<tr><td>return_thread</td><td>No</td><td>'true'</td><td>Returns the thread complete with the newly sent message.</td></tr>
+					<tr><td>returnThread</td><td>No</td><td>'true'</td><td>Returns the thread complete with the newly sent message.</td></tr>
 					</tbody>
 					</table>
 
 					<h4>Examples</h4>
 					<hr>
 					<h6>cURL Command Line Template</h6>
-					<p class="tab" id="codebox">curl -H "Content-Type: application/json" -X POST -d '{"from":"[username]", "to": "[username]", "body": "[body text]", "return_thread":"true"}' {{url}}/api/v1/MessageThreads</p>
+					<p class="tab" id="codebox">curl -H "Content-Type: application/json" -X POST -d '{"from":"[username]", "to": "[username]", "body": "[body text]", "returnThread":"true"}' {{url}}/api/v1/MessageThreads</p>
 					<h6>Input</h6>
 					<p class="tab" id="codebox">curl -H "Content-Type: application/json" -X POST -d '{"from":"ecroby", "to": "user2", "body": "Bruh, u watched Point Break yet?"}' {{url}}/api/v1/MessageThreads</p>
 					<h6>Output</h6>

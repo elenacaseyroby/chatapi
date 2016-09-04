@@ -3,6 +3,12 @@ from app import app, chatmodel, models
 from sqlalchemy import text, update, func
 from json import loads
 
+@app.teardown_request
+def session_clear(exception=None):
+    Session.remove()
+    if exception and Session.is_active:
+        Session.rollback()
+
 @app.errorhandler(404)
 def not_found(error):
 	return make_response(jsonify({'error': 'Not found'}), 404)

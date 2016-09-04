@@ -21,27 +21,27 @@ def renderreferencepage():
 def getmessagethread():
 	messages = []
 	#set time param
-	if request.json.get('time_sent'):
-		if request.json.get('time_sent') == 'today':
+	if request.args.get('time_sent'):
+		if request.args.get('time_sent') == 'today':
 			time_sent = 'today'
-		elif request.json.get('time_sent') == 'week':
+		elif request.args.get('time_sent') == 'week':
 			time_sent = 'week'
-		elif request.json.get('time_sent') == 'month':
+		elif request.args.get('time_sent') == 'month':
 			time_sent = 'month'
 		else:
 			abort(400)
 	else: 
 		time_sent = None
 	#set user2
-	if request.json.get('user2'):
-		user2 = request.json.get('user2')
+	if request.args.get('user2'):
+		user2 = request.args.get('user2')
 	else:
 		user2 = None
 		
-	if request.json.get('user1'):
-		user1 = request.json.get('user1')
-		if request.json.get('list_threads'):
-			if request.json.get('list_threads') == 'true':
+	if request.args.get('user1'):
+		user1 = request.args.get('user1')
+		if request.args.get('list_threads'):
+			if request.args.get('list_threads') == 'true':
 				results = chatmodel.getthreadsbyuser(user1 = user1, user2 = user2, time_sent = time_sent)
 				previously_listed_threads = []
 				for result in results:

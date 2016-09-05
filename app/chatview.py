@@ -5,7 +5,7 @@ from json import loads
 
 @app.teardown_request
 def session_clear(exception=None):
-	if exception and sql_session.is_active:
+	if exception:
 		sql_session.rollback()
 		print("rollback triggered!")
 

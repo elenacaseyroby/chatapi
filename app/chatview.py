@@ -7,20 +7,18 @@ from json import loads
 def session_clear(exception=None):
 	if exception:
 		sql_session.rollback()
-		print("rollback triggered!")
-
 
 @app.errorhandler(404)
 def not_found(error):
-	return make_response(jsonify({'error': 'Not found'}), 404)
+	return make_response(jsonify({"404 Error": "Not found"}), 404)
 
 @app.errorhandler(500)
 def not_found(error):
-	return make_response(jsonify({'error': "Sorry, there has been a server error. Please try sending your request again."}), 500)
+	return make_response(jsonify({"500 Error": "Sorry, there has been a server error. Please try sending your request again."}), 500)
 
 @app.errorhandler(400)
 def bad_request(error):
-	return make_response(jsonify({'error': 'Bad Request. The browser (or proxy) sent a request that this server could not understand.'}), 400)
+	return make_response(jsonify({"400 Error": "Bad Request. The browser (or proxy) sent a request that this server could not understand."}), 400)
 
 @app.route('/')
 @app.route('/reference')

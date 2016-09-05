@@ -14,17 +14,17 @@
             	<span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> <a href="/#Overview">Overview</a>
             </li>
             <li>
-                <span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> MessageThread
+                <span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> MessageThreads
                    <ul class="nav-pills nav-stacked" style="list-style-type:none;">
-                    <li><a href="/#MessageThread-GET">GET</a></li>
-                    <li><a href="/#MessageThread-POST">POST</a></li>
+                    <li><a href="/#MessageThreads-GET">GET</a></li>
+                    <li><a href="/#MessageThreads-POST">POST</a></li>
                 </ul>
             </li>
             <li>
-                <span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>User
+                <span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>Users
                 <ul class="nav-pills nav-stacked" style="list-style-type:none;">
-                	<li><a href="/#User-GET"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>GET</a></li>
-                    <li><a href="/#User-POST"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>POST</a></li>
+                	<li><a href="/#Users-GET"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>GET</a></li>
+                    <li><a href="/#Users-POST"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>POST</a></li>
                 </ul>
             </li>
         </ul>
@@ -40,14 +40,14 @@
 	            <h4>Overview</h4>
 				<hr>
 	           		<ul class="tab">
-						<li>Get list of users (User GET)</li>
-						<li>Post new user (User POST)</li>
-						<li>Get threads of messages, or a list of threads filtered by user(s) and time sent (MessageThread GET)</li>
-						<li>Post new message from one user to another user (MessageThread POST)</li>
+						<li>Get list of users <a href="/#Users-GET">(Users GET)</a></li>
+						<li>Post new user <a href="/#Users-POST">(Users POST)</a></li>
+						<li>Get threads of messages, or a list of threads filtered by user(s) and time sent <a href="/#MessageThreads-GET">(MessageThreads GET)</a></li>
+						<li>Post new message from one user to another user <a href="/#MessageThreads-POST">(MessageThreads POST)</a></li>
 					</ul>
 				<p>*Please note user authentication has not yet been implemented.</p>
 	            </div>
-	            <div id="MessageThread-GET">
+	            <div id="MessageThreads-GET">
 					<h4>Request</h4>
 					<hr>
 					<p class="tab" id="codebox">GET {{url}}/api/v1/MessageThreads</p>
@@ -72,6 +72,19 @@
 					<hr>
 					<h6>cURL Command Line Template</h6>
 					<p class="tab" id="codebox">curl "{{url}}/api/v1/MessageThreads?user1=[username1]&user2=[username2]&listThreads=true&timeSent=[today, week, month]"</p>
+					<h6>Input</h6>
+					<p class="tab" id="codebox">curl "{{url}}/api/v1/MessageThreads?user1=ecroby&listThreads=true"</p>
+					<h6>Output</h6>
+					<p class="tab" id="codebox">
+					[<br>
+					  {
+					    "thread": "ecroby - user2"
+					  },<br>
+					  {
+					    "thread": "ecroby - user3"
+					  }<br>
+					]<br>
+					</p>
 					<h6>Input</h6>
 					<p class="tab" id="codebox">curl "{{url}}/api/v1/MessageThreads?user1=ecroby"</p>
 					<h6>Output</h6>
@@ -128,7 +141,7 @@
 					</p>
 				</div>
 				<br><br><br><br><br><br>
-				<div id="MessageThread-POST">
+				<div id="MessageThreads-POST">
 					<h4>Request</h4>
 					<hr>
 					<p class="tab" id="codebox">POST {{url}}/api/v1/MessageThreads</p>
@@ -183,10 +196,10 @@
 					]</p>
 				</div>
 				<br><br><br><br><br><br>
-				<div id="User-GET">
+				<div id="Users-GET">
 					<h4>Request</h4>
 					<hr>
-					<p class="tab" id="codebox">POST {{url}}/api/v1/MessageThreads</p>
+					<p class="tab" id="codebox">GET {{url}}/api/v1/Users</p>
 
 					<h4>Description</h4>
 					<hr>
@@ -223,10 +236,10 @@
 					</p>
 				</div>
 				<br><br><br><br><br><br>
-				<div id="User-POST">
+				<div id="Users-POST">
 					<h4>Request</h4>
 					<hr>
-					<p class="tab" id="codebox">POST {{url}}/api/v1/MessageThreads</p>
+					<p class="tab" id="codebox">POST {{url}}/api/v1/Users</p>
 
 					<h4>Description</h4>
 					<hr>

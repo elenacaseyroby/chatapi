@@ -2,9 +2,6 @@
 
 {% block content %}
 
-    
-
-
 <div id="wrapper">
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
@@ -26,6 +23,9 @@
                 	<li><a href="/#Users-GET"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>GET</a></li>
                     <li><a href="/#Users-POST"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>POST</a></li>
                 </ul>
+            </li>
+            <li>
+            	<span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> <a href="/#Use-case">Use Case</a>
             </li>
         </ul>
     </div>
@@ -276,6 +276,166 @@
 					</p>
 
 				</div>
+				<br><br><br><br><br><br>
+				<div id="Use-case">
+	            <h4>Use Case</h4>
+				<hr>
+				<ol class="tab">
+						<li>Create username for yourself:</li>
+						<p id="codebox">curl -H "Content-Type: application/json" -X POST -d '{"username":"casey", "email": "casey@gmail.com", "password": "fruits"}' {{url}}/api/v1/Users</p>
+						<p id="codebox">
+							[<br>
+								{
+								"email": "casey@gmail.com"<br>, 
+								"message": "added user successfully"<br>, 
+								"password": "***"<br>, 
+								"username": "casey"
+								}<br>
+							]
+	           			</p>
+	           			<li>Check to see what other users are out there:</li>
+	           			<p id="codebox">curl "{{url}}/api/v1/Users"</p>
+	           			<p id="codebox">
+	           				[<br>
+							  {
+								"user": "casey"
+							  }, <br>
+							  {
+							    "user": "claire"
+							  }, <br>
+							  {
+							    "user": "ecroby"
+							  }, <br>
+							  {
+							    "user": "john"
+							  }, <br>
+							  {
+							    "user": "kai"
+							  }, <br>
+							  {
+							    "user": "lauren"
+							  }, <br>
+							  {
+							    "user": "mariko"
+							  }, <br>
+							  {
+							    "user": "user2"
+							  }, <br>
+							  {
+							    "user": "user23"
+							  }<br>
+							]
+	           			</p>
+	           			<li>Pick one and send them a message:</li>
+	           			<p id="codebox">curl -H "Content-Type: application/json" -X POST -d '{"from":"casey", "to": "lauren", "body": "Hey, Lauren!"}' {{url}}/api/v1/MessageThreads</p>
+	           			<p id="codebox">
+	           				{<br>
+							  "body": "Hey, Lauren!", <br>
+							  "from": "casey", <br>
+							  "messageId": 442, <br>
+							  "time": "Mon, 05 Sep 2016 08:23:26 GMT", <br>
+							  "to": "lauren"<br>
+							}
+	           			</p>
+	           			<li>Check to see if they replied:</li>
+	           			<p id="codebox">curl "{{url}}/api/v1/MessageThreads?user1=casey&user2=lauren"</p>
+	           			<p id="codebox">
+							[<br>
+							  {<br>
+							    "body": "Hey, Lauren!", <br>
+							    "from": "casey", <br>
+							    "messageId": 442, <br>
+							    "thread": "casey - lauren", <br>
+							    "time": "Mon, 05 Sep 2016 08:23:26 GMT", <br>
+							    "to": "lauren"
+							  }, <br>
+							  {<br>
+							    "body": "Hi! ^_^", <br>
+							    "from": "lauren", <br>
+							    "messageId": 452, <br>
+							    "thread": "casey - lauren", <br>
+							    "time": "Mon, 05 Sep 2016 08:25:02 GMT", <br>
+							    "to": "casey"<br>
+							  }<br>
+							]
+	           			</p>
+	           			<li>Check to see which users you have had active message threads with today:</li>
+	           			<p id="codebox">curl "{{url}}/api/v1/MessageThreads?user1=casey&listThreads=true&timeSent=today"</p>
+	           			<p id="codebox">
+	           				[<br>
+							  {<br>
+							    "thread": "casey - lauren"<br>
+							  }, <br>
+							  {<br>
+							    "thread": "john - casey"<br>
+							  }<br>
+							]
+	           			</p>
+	           			<li>Read all of the messages sent today in those active threads:</li>
+	           			<p id="codebox">curl "{{url}}/api/v1/MessageThreads?user1=casey&timeSent=today"</p>
+	           			<p id="codebox">
+							[<br>
+							  {<br>
+							    "body": "Hey, Lauren!", <br>
+							    "from": "casey", <br>
+							    "messageId": 442, <br>
+							    "thread": "casey - lauren", <br>
+							    "time": "Mon, 05 Sep 2016 08:23:26 GMT", <br>
+							    "to": "lauren"<br>
+							  }, <br>
+							  {<br>
+							    "body": "Hi! ^_^", <br>
+							    "from": "lauren", <br>
+							    "messageId": 452, <br>
+							    "thread": "casey - lauren", <br>
+							    "time": "Mon, 05 Sep 2016 08:25:02 GMT", <br>
+							    "to": "casey"<br>
+							  }, <br>
+							  {<br>
+							    "body": "Hey!", <br>
+							    "from": "casey", <br>
+							    "messageId": 362, <br>
+							    "thread": "john - casey", <br>
+							    "time": "Mon, 05 Sep 2016 02:50:50 GMT", <br>
+							    "to": "john"<br>
+							  }, <br>
+							  {<br>
+							    "body": "Hi Casey!", <br>
+							    "from": "john", <br>
+							    "messageId": 372, <br>
+							    "thread": "john - casey", <br>
+							    "time": "Mon, 05 Sep 2016 02:53:24 GMT", <br>
+							    "to": "casey"<br>
+							  }, <br>
+							  {<br>
+							    "body": "It looks like its working really smoothly now!", <br>
+							    "from": "casey", <br>
+							    "messageId": 382, <br>
+							    "thread": "john - casey", <br>
+							    "time": "Mon, 05 Sep 2016 02:55:08 GMT", <br>
+							    "to": "john"<br>
+							  }, <br>
+							  {<br>
+							    "body": "Yeah, it does!", <br>
+							    "from": "john", <br>
+							    "messageId": 392, <br>
+							    "thread": "john - casey", <br>
+							    "time": "Mon, 05 Sep 2016 02:57:03 GMT", <br>
+							    "to": "casey"<br>
+							  }, <br>
+							  {<br>
+							    "body": "Might be done here...", <br>
+							    "from": "casey", <br>
+							    "messageId": 402, <br>
+							    "thread": "john - casey", <br>
+							    "time": "Mon, 05 Sep 2016 02:57:55 GMT", <br>
+							    "to": "john"<br>
+							  }<br>
+							]
+	           			</p>
+
+					</ol>
+	            </div>
 			</div>
 		</div>
 	</div>

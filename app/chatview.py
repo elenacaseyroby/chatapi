@@ -7,6 +7,8 @@ from json import loads
 def session_clear(exception=None):
 	if exception and sql_session.is_active:
 		sql_session.rollback()
+		print("rollback triggered!")
+
 
 @app.errorhandler(404)
 def not_found(error):

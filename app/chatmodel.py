@@ -39,7 +39,11 @@ def getthreadsbyuser(user1, user2 = None, time_sent = None):
 		JOIN users u2 ON messages.to_user = u2.id
 		"""+where+""" 
 		ORDER BY thread, messages.time_sent;""")
-	results = models.engine.execute(sql)
+	try:
+		results = models.engine.execute(sql)
+	except exc.DBAPIError:
+		sql_session.rollback()
+		results = models.engine.execute(sql)
 	return results
 
 def getthreadlistbyuser(user):
@@ -58,7 +62,11 @@ SELECT CASE WHEN messages.from_user > messages.to_user THEN CONCAT(u2.username,"
 		JOIN users u ON messages.from_user = u.id
 		JOIN users u2 ON messages.to_user = u2.id
 		WHERE u.username = '"""+user+"' OR u2.username = '"+user+"""';""")
-	results = models.engine.execute(sql)
+	try:
+		results = models.engine.execute(sql)
+	except exc.DBAPIError:
+		sql_session.rollback()
+		results = models.engine.execute(sql)
 	return results
 
 def getallusers(user = None):
@@ -69,7 +77,11 @@ def getallusers(user = None):
 		FROM users
 		"""+where+"""
 		ORDER BY username;""")
-	results = models.engine.execute(sql)
+	try:
+		results = models.engine.execute(sql)
+	except exc.DBAPIError:
+		sql_session.rollback()
+		results = models.engine.execute(sql)
 	return results
 
 def postmessage(from_user, to_user, body):

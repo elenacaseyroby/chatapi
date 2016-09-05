@@ -1,13 +1,12 @@
 from flask import render_template, redirect, request, Flask, jsonify, abort, make_response
-from app import app, chatmodel, models
+from app import app, chatmodel, models, sql_session
 from sqlalchemy import text, update, func
 from json import loads
 
 @app.teardown_request
 def session_clear(exception=None):
-
-	if exception and Session.is_active:
-		Session.rollback()
+	if exception and sql_session.is_active:
+		sql_session.rollback()
 
 @app.errorhandler(404)
 def not_found(error):
